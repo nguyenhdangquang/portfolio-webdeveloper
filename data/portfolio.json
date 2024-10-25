@@ -49,6 +49,6 @@
     "languages":["Javascript","HTML5","CSS","Go","PHP", "Python"],
     "frameworks":["NodeJs", "React","Typescript", "Loopback", "Strapi", "Nextjs", "Nestjs", "Adonis", "ExpressJs"],
     "databases":["MongoDB", "PostgreSQL","MariaDB", "DynamoDB", "Oracle"],
-    "others":["Figma","AWS", "GCP", "Docker", "K8s", "Kafka", "Redis", "Github Actions", "Bitbucket Pipeline"]
+    "others":["Figma", "Tailwind", "Antd", "MUI", "AWS", "GCP", "Docker", "K8s", "Kafka", "Redis", "Github Actions", "Bitbucket Pipeline"]
     }
   }
