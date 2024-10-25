@@ -1,21 +1,16 @@
+import React from "react";
 import { Popover } from "@headlessui/react";
-import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+
 import Button from "../Button";
-// Local Data
+import { useCustomThemeMounted } from "../../hook/useCustomThemeMounted";
+
 import data from "../../data/portfolio.json";
 
-const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
+const Header = ({ handleProjectScroll, handleHighlightRef, isBlog }) => {
   const router = useRouter();
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  const { name, showBlog, showResume } = data;
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { name, showResume } = data;
+  const { theme, setTheme, mounted } = useCustomThemeMounted()
 
   return (
     <>
@@ -38,8 +33,9 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
                     }
                   >
                     <img
+                      alt=""
                       className="h-6"
-                      src={`/images/${
+                      src={`../images/${
                         theme === "dark" ? "moon.svg" : "sun.svg"
                       }`}
                     ></img>
@@ -47,18 +43,21 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
                 )}
 
                 <Popover.Button>
-                  <img
-                    className="h-5"
-                    src={`/images/${
-                      !open
-                        ? theme === "dark"
-                          ? "menu-white.svg"
-                          : "menu.svg"
-                        : theme === "light"
-                        ? "cancel.svg"
-                        : "cancel-white.svg"
-                    }`}
-                  ></img>
+                    {
+                        mounted && theme && <img
+                            alt=""
+                            className="h-5"
+                            src={`/images/${
+                                !open
+                                    ? theme === "dark"
+                                        ? "menu-white.svg"
+                                        : "menu.svg"
+                                    : theme === "light"
+                                        ? "cancel.svg"
+                                        : "cancel-white.svg"
+                            }`}
+                        ></img>
+                    }
                 </Popover.Button>
               </div>
             </div>
@@ -69,23 +68,19 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
             >
               {!isBlog ? (
                 <div className="grid grid-cols-1">
-                  <Button onClick={handleWorkScroll}>Work</Button>
-                  <Button onClick={handleAboutScroll}>About</Button>
-                  {showBlog && (
-                    <Button onClick={() => router.push("/blog")}>Blog</Button>
-                  )}
+                  <Button onClick={handleProjectScroll}>Project</Button>
                   {showResume && (
                     <Button
                       onClick={() =>
-                        window.open("mailto:hello@chetanverma.com")
+                        window.open("../images/NHDQ_Resume.pdf")
                       }
                     >
-                      Resume
+                      Download Resume
                     </Button>
                   )}
 
                   <Button
-                    onClick={() => window.open("mailto:hello@chetanverma.com")}
+                    onClick={() => window.open("mailto:nguyenhdangquang@gmail.com")}
                   >
                     Contact
                   </Button>
@@ -95,9 +90,6 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
                   <Button onClick={() => router.push("/")} classes="first:ml-1">
                     Home
                   </Button>
-                  {showBlog && (
-                    <Button onClick={() => router.push("/blog")}>Blog</Button>
-                  )}
                   {showResume && (
                     <Button
                       onClick={() => router.push("/resume")}
@@ -108,7 +100,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
                   )}
 
                   <Button
-                    onClick={() => window.open("mailto:hello@chetanverma.com")}
+                    onClick={() => window.open("mailto:nguyenhdangquang@gmail.com")}
                   >
                     Contact
                   </Button>
@@ -120,7 +112,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
       </Popover>
       <div
         className={`mt-10 hidden flex-row items-center justify-between sticky ${
-          theme === "light" && "bg-white"
+          theme === "light" ? "bg-white" : ''
         } dark:text-white top-0 z-10 tablet:flex`}
       >
         <h1
@@ -131,11 +123,8 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
         </h1>
         {!isBlog ? (
           <div className="flex">
-            <Button onClick={handleWorkScroll}>Work</Button>
-            <Button onClick={handleAboutScroll}>About</Button>
-            {showBlog && (
-              <Button onClick={() => router.push("/blog")}>Blog</Button>
-            )}
+            <Button onClick={handleProjectScroll}>Project</Button>
+            <Button onClick={handleHighlightRef}>Highlights</Button>
             {showResume && (
               <Button
                 onClick={() => router.push("/resume")}
@@ -145,7 +134,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
               </Button>
             )}
 
-            <Button onClick={() => window.open("mailto:hello@chetanverma.com")}>
+            <Button onClick={() => window.open("mailto:nguyenhdangquang@gmail.com")}>
               Contact
             </Button>
             {mounted && theme && data.darkMode && (
@@ -162,9 +151,6 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
         ) : (
           <div className="flex">
             <Button onClick={() => router.push("/")}>Home</Button>
-            {showBlog && (
-              <Button onClick={() => router.push("/blog")}>Blog</Button>
-            )}
             {showResume && (
               <Button
                 onClick={() => router.push("/resume")}
@@ -174,7 +160,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
               </Button>
             )}
 
-            <Button onClick={() => window.open("mailto:hello@chetanverma.com")}>
+            <Button onClick={() => window.open("mailto:nguyenhdangquang@gmail.com")}>
               Contact
             </Button>
 
